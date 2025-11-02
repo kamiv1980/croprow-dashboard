@@ -1,0 +1,14 @@
+syntax = "proto2";
+import "nanopb.proto";
+
+message Sensor {
+    required uint32 address = 1 [(nanopb).int_size = IS_8];
+    required uint32 online  = 2 [(nanopb).int_size = IS_8];
+    optional uint32 counter = 3 [(nanopb).int_size = IS_16];
+    optional uint32 counter_a = 4 [(nanopb).int_size = IS_16];
+    optional uint32 status  = 5 [(nanopb).int_size = IS_16];
+}
+
+message SensorMessage {
+    repeated Sensor sensors = 1 [(nanopb).max_count = 20];
+}

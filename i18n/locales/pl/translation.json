@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Wstecz"
+  },
+  "settings": {
+    "title": "Ustawienia"
+  },
+  "theme": {
+    "title": "Motyw",
+    "dark": "Ciemny",
+    "light": "Jasny",
+    "system": "Systemowy"
+  },
+  "home": {
+    "title": "Strona główna"
+  },
+  "units": {
+    "title": "Jednostki",
+    "metric": "Metryczny",
+    "imperial": "Imperialny"
+  },
+  "language": {
+    "title": "Język"
+  }
+}

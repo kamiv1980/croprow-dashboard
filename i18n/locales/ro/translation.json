@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Înapoi"
+  },
+  "settings": {
+    "title": "Setări"
+  },
+  "theme": {
+    "title": "Temă",
+    "dark": "Întunecată",
+    "light": "Luminoasă",
+    "system": "Sistem"
+  },
+  "home": {
+    "title": "Acasă"
+  },
+  "units": {
+    "title": "Unități",
+    "metric": "Metric",
+    "imperial": "Imperial"
+  },
+  "language": {
+    "title": "Limbă"
+  }
+}

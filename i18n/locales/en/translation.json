@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Back"
+  },
+  "settings": {
+    "title": "Settings"
+  },
+  "theme": {
+    "title": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "units": {
+    "title": "Units",
+    "metric": "Metric",
+    "imperial": "imperial"
+  },
+  "language": {
+    "title": "Language"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Назад"
+  },
+  "settings": {
+    "title": "Настройки"
+  },
+  "theme": {
+    "title": "Тема",
+    "dark": "Тъмна",
+    "light": "Светла",
+    "system": "Системна"
+  },
+  "home": {
+    "title": "Начало"
+  },
+  "units": {
+    "title": "Единици",
+    "metric": "Метрична",
+    "imperial": "Имперска"
+  },
+  "language": {
+    "title": "Език"
+  }
+}

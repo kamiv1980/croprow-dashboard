@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Vissza"
+  },
+  "settings": {
+    "title": "Beállítások"
+  },
+  "theme": {
+    "title": "Téma",
+    "dark": "Sötét",
+    "light": "Világos",
+    "system": "Rendszer"
+  },
+  "home": {
+    "title": "Kezdőlap"
+  },
+  "units": {
+    "title": "Egységek",
+    "metric": "Metrikus",
+    "imperial": "Angolszász"
+  },
+  "language": {
+    "title": "Nyelv"
+  }
+}
