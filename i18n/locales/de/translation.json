@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Zurück"
+  },
+  "settings": {
+    "title": "Einstellungen"
+  },
+  "theme": {
+    "title": "Thema",
+    "dark": "Dunkel",
+    "light": "Hell",
+    "system": "System"
+  },
+  "home": {
+    "title": "Startseite"
+  },
+  "units": {
+    "title": "Einheiten",
+    "metric": "Metrisch",
+    "imperial": "Imperial"
+  },
+  "language": {
+    "title": "Sprache"
+  }
+}

@@ -5,4 +5,5 @@ export const LANGUAGES = [
     { lang: 'hu-HU', label: 'Magyar' },
     { lang: 'ro-RO', label: 'Română' },
     { lang: 'bg-BG', label: 'Български' },
+    { lang: 'de-DE', label: 'Deutsch' },
 ];
