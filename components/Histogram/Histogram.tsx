@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, useWindowDimensions, PanResponder, View, Text } from 'react-native';
-import { SensorState, useSensorsStore } from '@/store/useSensorsStore';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { ThemedView } from "@/components/themed-view";
-import { useTheme } from "@/contexts/ThemeContext";
 import AnimatedBar from "@/components/Histogram/AnimatedBar";
+import { ThemedView } from "@/components/themed-view";
 import { Colors } from "@/constants/themes";
+import { useTheme } from "@/contexts/ThemeContext";
+import { SensorState, useSensorsStore } from '@/store/useSensorsStore';
+import React, { useEffect, useRef, useState } from 'react';
+import { PanResponder, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import {ThemedText} from "@/components/themed-text";
 
 type Props = {
   data: SensorState[];
@@ -59,6 +60,16 @@ export default function Histogram({ data }: Props) {
   };
 
   const initialTop = useRef(0);
+  const containerHeightRef = useRef(containerHeight);
+  const maxRef = useRef(max);
+
+  useEffect(() => {
+    containerHeightRef.current = containerHeight;
+  }, [containerHeight]);
+
+  useEffect(() => {
+    maxRef.current = max;
+  }, [max]);
 
   const panResponder = useRef(
       PanResponder.create({
@@ -69,12 +80,16 @@ export default function Histogram({ data }: Props) {
           initialTop.current = normTop.value;
         },
         onPanResponderMove: (_, gestureState) => {
+          const currentContainerHeight = containerHeightRef.current;
+          const currentMax = maxRef.current;
+
           let newTop = initialTop.current + gestureState.dy;
-          newTop = Math.max(0, Math.min(newTop, containerHeight));
+          newTop = Math.max(0, Math.min(newTop, currentContainerHeight));
           normTop.value = newTop;
 
-          const newNorm = Math.round(((containerHeight - newTop) / containerHeight) * max);
-          const clampedNorm = Math.max(0, Math.min(newNorm, max));
+          const newNorm = Math.round(((currentContainerHeight - newTop) / currentContainerHeight) * currentMax);
+          const clampedNorm = Math.max(0, Math.min(newNorm, currentMax));
+
           currentNorm.current = clampedNorm;
           setNorm(clampedNorm);
         },
@@ -90,21 +105,30 @@ export default function Histogram({ data }: Props) {
     position: 'absolute',
     left: 0,
     right: 0,
-    height: 3,
+    height: isDragging.value ? 4 : 2,
     borderRadius: 2,
     backgroundColor: isDragging.value
-        ? (actualTheme === 'dark' ? '#FFD700' : '#FF4500')
-        : (actualTheme === 'dark' ? '#888888' : '#00000066'),
+        ? Colors[actualTheme].tint
+        : Colors[actualTheme].text,
+    zIndex: 1001,
+  }));
+
+  const normLineHitAreaStyle = useAnimatedStyle(() => ({
+    top: normTop.value - 25,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    height: 50,
     zIndex: 1000,
   }));
 
   const normLabelStyle = useAnimatedStyle(() => ({
     position: 'absolute',
-    top: normTop.value - 20,
-    right: 8,
+    top: normTop.value - 28,
+    right: 4,
     zIndex: 1001,
-    backgroundColor: actualTheme === 'dark' ? '#000000AA' : '#FFFFFFAA',
-    paddingHorizontal: 6,
+    backgroundColor: Colors[actualTheme].background,
+    paddingHorizontal: 4,
     paddingVertical: 2,
     borderRadius: 4,
   }));
@@ -133,14 +157,18 @@ export default function Histogram({ data }: Props) {
 
           <Animated.View
               {...panResponder.panHandlers}
-              style={normLineStyle}
+              style={normLineHitAreaStyle}
           />
 
-          <Animated.View style={normLabelStyle} pointerEvents="none">
-            <Text style={[styles.normLabel, { color: actualTheme === 'dark' ? '#FFF' : '#333' }]}>
-              Norm: {norm}
-            </Text>
-          </Animated.View>
+          <Animated.View
+              style={normLineStyle}
+              pointerEvents="none"
+          />
+          {isDragging.value &&
+            <Animated.View style={normLabelStyle} pointerEvents="none">
+              <ThemedText type="defaultSemiBold">{norm}</ThemedText>
+            </Animated.View>
+          }
         </View>
       </ThemedView>
   );
@@ -160,9 +188,5 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     width: '100%',
     marginBottom: 10
-  },
-  normLabel: {
-    fontSize: 12,
-    fontWeight: '600'
   },
 });
