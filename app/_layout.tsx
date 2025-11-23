@@ -32,17 +32,7 @@ function RootLayoutNav() {
             <Stack >
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-                <Stack.Screen name="settings" options={{
-                    headerStyle: {
-                        backgroundColor: Colors[actualTheme].background,
-                    },
-                    headerTintColor: Colors[actualTheme].text,
-                    headerTitleStyle: {
-                        color: Colors[actualTheme].icon,
-                    },
-                    headerBackTitle: t('common.back'),
-                    headerTitle: t('settings.title')
-                }}/>
+                <Stack.Screen name="settings" options={{ headerShown: false }}/>
             </Stack>
             <StatusBar
                 style={actualTheme === 'dark' ? 'light' : 'dark'}

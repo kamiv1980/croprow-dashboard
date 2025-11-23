@@ -1,9 +1,11 @@
 import { SensorState } from '../store/useSensorsStore';
+import { useSettingsStore } from '../store/useSettingsStore';
 
-export function generateMockSensors(count: number = 16): SensorState[] {
+export function generateMockSensors(count?: number): SensorState[] {
+    const sensorCount = count ?? useSettingsStore.getState().sensorCount;
     const states: SensorState['state'][] = ['working', 'offline', 'clogged', 'disabled'];
 
-    return Array.from({ length: count }, (_, i) => {
+    return Array.from({ length: sensorCount }, (_, i) => {
         const rand = Math.random();
         let state: SensorState['state'];
 
@@ -39,11 +41,13 @@ export function simulateSensorUpdates(
     callback: (sensors: SensorState[]) => void,
     interval: number = 2000
 ) {
-    callback(generateMockSensors(16));
+    const updateSensors = () => {
+        callback(generateMockSensors());
+    };
+    
+    updateSensors();
 
-    const intervalId = setInterval(() => {
-        callback(generateMockSensors(16));
-    }, interval);
+    const intervalId = setInterval(updateSensors, interval);
 
     return () => clearInterval(intervalId);
 }

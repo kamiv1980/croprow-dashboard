@@ -1,7 +1,8 @@
-import { Stack } from 'expo-router';
+import {Stack} from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import {useTranslation} from "react-i18next";
 import {Colors} from "@/constants/themes";
+import {ButtonBack} from "@/components/ui/button-back";
 
 export default function SettingsLayout() {
     const { actualTheme } = useTheme();
@@ -24,21 +25,39 @@ export default function SettingsLayout() {
                 name="theme"
                 options={{
                     presentation: 'card',
-                    headerTitle: t('theme.title')
+                    headerTitle: t('theme.seedSensors'),
+                    headerLeft: () => (<ButtonBack/>),
                 }}
             />
             <Stack.Screen
                 name="language"
                 options={{
                     presentation: 'card',
-                    headerTitle: t('language.title')
+                    headerTitle: t('language.title'),
+                    headerLeft: () => (<ButtonBack/>),
                 }}
             />
             <Stack.Screen
                 name="units"
                 options={{
                     presentation: 'card',
-                    headerTitle: t('units.title')
+                    headerTitle: t('units.title'),
+                    headerLeft: () => (<ButtonBack/>),
+                }}
+            />
+            <Stack.Screen
+                name="seeder"
+                options={{
+                    presentation: 'card',
+                    headerTitle: t('seeder.title'),
+                    headerLeft: () => (<ButtonBack/>),
+                }}
+            />
+            <Stack.Screen
+                name="sensors"
+                options={{
+                    presentation: 'card',
+                    headerTitle: t('seeder.seedSensors'),
                 }}
             />
         </Stack>

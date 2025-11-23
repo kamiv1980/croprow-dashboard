@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Język"
+  },
+  "seeder": {
+    "title": "Siewnik",
+    "seedSensors": "Czujniki wysiewu",
+    "seedSensorsHint": "Zakres: {{min}} - {{max}} czujników"
   }
 }

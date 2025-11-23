@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Език"
+  },
+  "seeder": {
+    "title": "Сеялка",
+    "seedSensors": "Датчици за сеитба",
+    "seedSensorsHint": "Диапазон: {{min}} - {{max}} датчика"
   }
 }

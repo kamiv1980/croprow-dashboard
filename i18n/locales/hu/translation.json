@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Nyelv"
+  },
+  "seeder": {
+    "title": "Vetőgép",
+    "seedSensors": "Vetési érzékelők",
+    "seedSensorsHint": "Tartomány: {{min}} - {{max}} érzékelő"
   }
 }

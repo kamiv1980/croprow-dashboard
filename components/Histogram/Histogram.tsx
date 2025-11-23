@@ -4,7 +4,7 @@ import { Colors } from "@/constants/themes";
 import { useTheme } from "@/contexts/ThemeContext";
 import { SensorState, useSensorsStore } from '@/store/useSensorsStore';
 import React, { useEffect, useRef, useState } from 'react';
-import { PanResponder, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { PanResponder, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import {ThemedText} from "@/components/themed-text";
 
@@ -36,14 +36,15 @@ export default function Histogram({ data }: Props) {
   const prevScreenHeight = useRef(height);
   const currentNorm = useRef(normFromStore);
 
-  const normTop = useSharedValue(containerHeight - (normFromStore / max) * containerHeight);
+  // normTop позиціонується відносно одного ряду
+  const normTop = useSharedValue(rowHeight - (normFromStore / max) * rowHeight);
   const isDragging = useSharedValue(false);
 
   useEffect(() => {
-    normTop.value = containerHeight - (normFromStore / max) * containerHeight;
+    normTop.value = rowHeight - (normFromStore / max) * rowHeight;
     setNorm(normFromStore);
     currentNorm.current = normFromStore;
-  }, [normFromStore, max, containerHeight]);
+  }, [normFromStore, max, rowHeight]);
 
   const handleLayout = (event: any) => {
     const { height: layoutHeight } = event.nativeEvent.layout;
@@ -60,12 +61,12 @@ export default function Histogram({ data }: Props) {
   };
 
   const initialTop = useRef(0);
-  const containerHeightRef = useRef(containerHeight);
+  const rowHeightRef = useRef(rowHeight);
   const maxRef = useRef(max);
 
   useEffect(() => {
-    containerHeightRef.current = containerHeight;
-  }, [containerHeight]);
+    rowHeightRef.current = rowHeight;
+  }, [rowHeight]);
 
   useEffect(() => {
     maxRef.current = max;
@@ -80,14 +81,14 @@ export default function Histogram({ data }: Props) {
           initialTop.current = normTop.value;
         },
         onPanResponderMove: (_, gestureState) => {
-          const currentContainerHeight = containerHeightRef.current;
+          const currentRowHeight = rowHeightRef.current;
           const currentMax = maxRef.current;
 
           let newTop = initialTop.current + gestureState.dy;
-          newTop = Math.max(0, Math.min(newTop, currentContainerHeight));
+          newTop = Math.max(0, Math.min(newTop, currentRowHeight));
           normTop.value = newTop;
 
-          const newNorm = Math.round(((currentContainerHeight - newTop) / currentContainerHeight) * currentMax);
+          const newNorm = Math.round(((currentRowHeight - newTop) / currentRowHeight) * currentMax);
           const clampedNorm = Math.max(0, Math.min(newNorm, currentMax));
 
           currentNorm.current = clampedNorm;
@@ -100,6 +101,7 @@ export default function Histogram({ data }: Props) {
       })
   ).current;
 
+  // Лінія норми всередину ряду
   const normLineStyle = useAnimatedStyle(() => ({
     top: normTop.value,
     position: 'absolute',
@@ -113,12 +115,13 @@ export default function Histogram({ data }: Props) {
     zIndex: 1001,
   }));
 
+  // Hit area всередину ряду для перетягування
   const normLineHitAreaStyle = useAnimatedStyle(() => ({
-    top: normTop.value - 25,
+    top: 0,
     position: 'absolute',
     left: 0,
     right: 0,
-    height: 50,
+    height: '100%',
     zIndex: 1000,
   }));
 
@@ -139,36 +142,44 @@ export default function Histogram({ data }: Props) {
             style={[styles.chartContainer, { height: availableHeight }]}
             onLayout={handleLayout}
         >
+          {/* Рядки з датчиками */}
           {rows.map((rowData, rowIndex) => (
-              <ThemedView key={rowIndex} style={[styles.row, { height: rowHeight }]}>
-                {rowData.map((d) => {
-                  const heightPercent = Math.min(100, Math.round((d.grains / (max * 1.15)) * 100));
-                  return (
-                      <AnimatedBar
-                          key={d.id}
-                          sensor={d}
-                          heightPercent={heightPercent}
-                          containerHeight={rowHeight}
-                      />
-                  );
-                })}
-              </ThemedView>
+              <View key={rowIndex} style={[styles.row, { height: rowHeight, position: 'relative' }]}>
+                {/* Hit area для перетягування - всередину ряду */}
+                <Animated.View
+                    {...panResponder.panHandlers}
+                    style={normLineHitAreaStyle}
+                />
+
+                {/* Датчики */}
+                <ThemedView style={styles.barsContainer}>
+                  {rowData.map((d) => {
+                    const heightPercent = Math.min(100, Math.round((d.grains / (max * 1.15)) * 100));
+                    return (
+                        <AnimatedBar
+                            key={d.id}
+                            sensor={d}
+                            heightPercent={heightPercent}
+                            containerHeight={rowHeight}
+                        />
+                    );
+                  })}
+                </ThemedView>
+
+                {/* Лінія норми всередину ряду */}
+                <Animated.View
+                    style={normLineStyle}
+                    pointerEvents="none"
+                />
+
+                {/* Лейбл - показується тільки при перетягуванні */}
+                {isDragging.value && (
+                    <Animated.View style={normLabelStyle} pointerEvents="none">
+                      <ThemedText type="defaultSemiBold">{norm}</ThemedText>
+                    </Animated.View>
+                )}
+              </View>
           ))}
-
-          <Animated.View
-              {...panResponder.panHandlers}
-              style={normLineHitAreaStyle}
-          />
-
-          <Animated.View
-              style={normLineStyle}
-              pointerEvents="none"
-          />
-          {isDragging.value &&
-            <Animated.View style={normLabelStyle} pointerEvents="none">
-              <ThemedText type="defaultSemiBold">{norm}</ThemedText>
-            </Animated.View>
-          }
         </View>
       </ThemedView>
   );
@@ -181,12 +192,17 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     width: '100%',
-    position: 'relative',
   },
   row: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     width: '100%',
-    marginBottom: 10
+    marginBottom: 10,
+  },
+  barsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: '100%',
+    height: '100%',
   },
 });

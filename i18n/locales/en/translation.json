@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Language"
+  },
+  "seeder": {
+    "title": "Seeder",
+    "seedSensors": "Seed Sensors",
+    "seedSensorsHint": "Range: {{min}} - {{max}} sensors"
   }
 }

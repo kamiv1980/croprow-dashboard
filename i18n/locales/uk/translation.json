@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Мова"
+  },
+  "seeder": {
+    "title": "Сівалка",
+    "seedSensors": "Датчики висіву",
+    "seedSensorsHint": "Діапазон: {{min}} - {{max}} датчиків"
   }
 }

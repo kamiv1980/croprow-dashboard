@@ -19,8 +19,11 @@ const MAPPING = {
   'gear': 'settings-suggest',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'chevron.left': 'chevron-left',
   'checkmark': 'check',
   'location.north.circle.fill': 'assistant-navigation',
+  'plus': 'add',
+  'minus': 'remove',
 } as IconMapping;
 
 /**

@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Sprache"
+  },
+  "seeder": {
+    "title": "Sämaschine",
+    "seedSensors": "Saatgut-Sensoren",
+    "seedSensorsHint": "Bereich: {{min}} - {{max}} Sensoren"
   }
 }

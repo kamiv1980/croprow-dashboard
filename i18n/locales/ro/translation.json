@@ -21,5 +21,10 @@
   },
   "language": {
     "title": "Limbă"
+  },
+  "seeder": {
+    "title": "Semănătoare",
+    "seedSensors": "Senzori de semănat",
+    "seedSensorsHint": "Interval: {{min}} - {{max}} senzori"
   }
 }
