@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
 import {ThemedView} from "@/components/themed-view";
-import FanButton from "@/components/HeaderInfo/FanButton";
-import HooperButton from "@/components/HeaderInfo/HooperButton";
-import ShaftButton from "@/components/HeaderInfo/ShaftButton";
+import FanButton from "@/components/Dashboard/FanButton";
+import HooperButton from "@/components/Dashboard/HooperButton";
+import ShaftButton from "@/components/Dashboard/ShaftButton";
 
 export default function FooterInfo(){
     const { width, height } = useWindowDimensions();

@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
 import {ThemedView} from "@/components/themed-view";
-import SpeedButton from "@/components/HeaderInfo/SpeedButton";
-import FanButton from "@/components/HeaderInfo/FanButton";
-import HooperButton from "@/components/HeaderInfo/HooperButton";
-import ShaftButton from "@/components/HeaderInfo/ShaftButton";
+import SpeedButton from "@/components/Dashboard/SpeedButton";
+import FanButton from "@/components/Dashboard/FanButton";
+import HooperButton from "@/components/Dashboard/HooperButton";
+import ShaftButton from "@/components/Dashboard/ShaftButton";
 
 export default function HeaderInfo(){
     const { width, height } = useWindowDimensions();

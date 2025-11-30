@@ -4,7 +4,7 @@ import {ThemedText} from "@/components/themed-text";
 import {IconSymbol} from "@/components/ui/icon-symbol";
 import {useTheme} from "@/contexts/ThemeContext";
 import {Colors} from "@/constants/themes";
-import {GradientLayout} from "@/components/HeaderInfo/GradientLayout";
+import {GradientLayout} from "@/components/Dashboard/GradientLayout";
 
 export default function HooperButton(){
     const { actualTheme } = useTheme();

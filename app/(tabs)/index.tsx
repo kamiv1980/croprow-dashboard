@@ -5,9 +5,9 @@ import { useBLEStore } from '@/store/useBLEStore';
 import Histogram from '@/components/Histogram/Histogram';
 import { useSensorsStore } from '@/store/useSensorsStore';
 import { bleMockStart } from '@/services/ble/bleService';
-import HeaderInfo from '@/components/HeaderInfo/HeaderInfo';
+import HeaderInfo from '@/components/Dashboard/HeaderInfo';
 import {simulateSensorUpdates} from "@/utils/mock-data";
-import FooterInfo from "@/components/HeaderInfo/FooterInfo";
+import FooterInfo from "@/components/Dashboard/FooterInfo";
 
 export default function DashboardScreen() {
   // const connect = useBLEStore(s => s.connect);
