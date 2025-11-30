@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Pressable, useWindowDimensions, PanResponder} from 'react-native';
-import { SensorState, useSensorsStore } from '@/store/useSensorsStore';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, Pressable} from 'react-native';
+import { SensorState } from '@/store/useSensorsStore';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,

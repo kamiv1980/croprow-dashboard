@@ -36,7 +36,6 @@ export default function Histogram({ data }: Props) {
   const prevScreenHeight = useRef(height);
   const currentNorm = useRef(normFromStore);
 
-  // normTop позиціонується відносно одного ряду
   const normTop = useSharedValue(rowHeight - (normFromStore / max) * rowHeight);
   const isDragging = useSharedValue(false);
 
@@ -101,7 +100,6 @@ export default function Histogram({ data }: Props) {
       })
   ).current;
 
-  // Лінія норми всередину ряду
   const normLineStyle = useAnimatedStyle(() => ({
     top: normTop.value,
     position: 'absolute',
@@ -115,13 +113,12 @@ export default function Histogram({ data }: Props) {
     zIndex: 1001,
   }));
 
-  // Hit area всередину ряду для перетягування
   const normLineHitAreaStyle = useAnimatedStyle(() => ({
-    top: 0,
     position: 'absolute',
     left: 0,
     right: 0,
-    height: '100%',
+    top: normTop.value - 6,
+    height: 12,
     zIndex: 1000,
   }));
 
@@ -142,16 +139,13 @@ export default function Histogram({ data }: Props) {
             style={[styles.chartContainer, { height: availableHeight }]}
             onLayout={handleLayout}
         >
-          {/* Рядки з датчиками */}
           {rows.map((rowData, rowIndex) => (
               <View key={rowIndex} style={[styles.row, { height: rowHeight, position: 'relative' }]}>
-                {/* Hit area для перетягування - всередину ряду */}
                 <Animated.View
                     {...panResponder.panHandlers}
                     style={normLineHitAreaStyle}
                 />
 
-                {/* Датчики */}
                 <ThemedView style={styles.barsContainer}>
                   {rowData.map((d) => {
                     const heightPercent = Math.min(100, Math.round((d.grains / (max * 1.15)) * 100));
@@ -166,13 +160,11 @@ export default function Histogram({ data }: Props) {
                   })}
                 </ThemedView>
 
-                {/* Лінія норми всередину ряду */}
                 <Animated.View
                     style={normLineStyle}
                     pointerEvents="none"
                 />
 
-                {/* Лейбл - показується тільки при перетягуванні */}
                 {isDragging.value && (
                     <Animated.View style={normLabelStyle} pointerEvents="none">
                       <ThemedText type="defaultSemiBold">{norm}</ThemedText>

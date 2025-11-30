@@ -5,8 +5,9 @@ import { useBLEStore } from '@/store/useBLEStore';
 import Histogram from '@/components/Histogram/Histogram';
 import { useSensorsStore } from '@/store/useSensorsStore';
 import { bleMockStart } from '@/services/ble/bleService';
-import HeaderInfo from '@/components/HeaderInfo/SpeedInfo';
+import HeaderInfo from '@/components/HeaderInfo/HeaderInfo';
 import {simulateSensorUpdates} from "@/utils/mock-data";
+import FooterInfo from "@/components/HeaderInfo/FooterInfo";
 
 export default function DashboardScreen() {
   // const connect = useBLEStore(s => s.connect);
@@ -14,8 +15,7 @@ export default function DashboardScreen() {
     const setSensors = useSensorsStore(s => s.setSensors);
 
     useEffect(() => {
-        const cleanup = simulateSensorUpdates(setSensors, 3000);
-        return cleanup;
+        return simulateSensorUpdates(setSensors, 3000);
     }, [setSensors]);
 
 
@@ -31,11 +31,13 @@ export default function DashboardScreen() {
         <ThemedView style={styles.content}>
           <Histogram data={sensors} />
         </ThemedView>
+          <FooterInfo />
+
       </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { flex: 1, padding: 16 },
+  content: { flex: 1, padding: 4 },
 });

@@ -24,6 +24,10 @@ const MAPPING = {
   'location.north.circle.fill': 'assistant-navigation',
   'plus': 'add',
   'minus': 'remove',
+  'gauge.open.with.lines.needle.33percent' : 'speedometer-outline',
+  'fan' : 'fan',
+  'tray.fill' : 'inbox',
+  'gearshape.arrow.trianglehead.2.clockwise.rotate.90' : 'gears',
 } as IconMapping;
 
 /**
