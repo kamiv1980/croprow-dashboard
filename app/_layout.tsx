@@ -8,6 +8,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import '@/i18n';
 import {useTranslation} from "react-i18next";
 import {LanguageProvider} from "@/contexts/LanguageContext";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {UnitsProvider} from "@/contexts/UnitsContext";
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -46,9 +48,13 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-        <LanguageProvider>
-            <RootLayoutNav/>
-        </LanguageProvider>
+        <UnitsProvider>
+            <LanguageProvider>
+                <SafeAreaProvider>
+                    <RootLayoutNav/>
+                </SafeAreaProvider>
+            </LanguageProvider>
+        </UnitsProvider>
     </ThemeProvider>
   );
 }

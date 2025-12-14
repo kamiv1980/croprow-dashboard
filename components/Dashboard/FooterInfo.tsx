@@ -4,6 +4,7 @@ import {ThemedView} from "@/components/themed-view";
 import FanButton from "@/components/Dashboard/FanButton";
 import HooperButton from "@/components/Dashboard/HooperButton";
 import ShaftButton from "@/components/Dashboard/ShaftButton";
+import {Carousel} from "@/components/Dashboard/Carousel";
 
 export default function FooterInfo(){
     const { width, height } = useWindowDimensions();
@@ -13,9 +14,17 @@ export default function FooterInfo(){
 
   return (
     <ThemedView style={styles.container}>
-        <FanButton/>
-        <ShaftButton/>
-        <HooperButton/>
+        <Carousel>
+            <FanButton/>
+            <ShaftButton/>
+            <HooperButton/>
+            <FanButton/>
+            <ShaftButton/>
+            <HooperButton/>
+            <FanButton/>
+            <ShaftButton/>
+            <HooperButton/>
+        </Carousel>
     </ThemedView>
   );
 }

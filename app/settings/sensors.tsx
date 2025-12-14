@@ -7,6 +7,7 @@ import { Colors } from '@/constants/themes';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTranslation } from 'react-i18next';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function SeedSensorsSettingsScreen() {
     const { actualTheme } = useTheme();
@@ -14,6 +15,7 @@ export default function SeedSensorsSettingsScreen() {
     const { t } = useTranslation();
     const sensorCount = useSettingsStore(s => s.sensorCount);
     const setSensorCount = useSettingsStore(s => s.setSensorCount);
+    const insets = useSafeAreaInsets();
 
     const [localValue, setLocalValue] = useState(String(sensorCount));
 
@@ -48,7 +50,16 @@ export default function SeedSensorsSettingsScreen() {
 
     return (
         <ScrollView
-            style={[styles.scroll, { backgroundColor: colors.background }]}
+            style={[
+                styles.scroll,
+                { backgroundColor: colors.background },
+                {
+                    paddingTop: insets.top,
+                    paddingBottom: insets.bottom,
+                    paddingLeft: insets.left,
+                    paddingRight: insets.right,
+                }
+            ]}
             contentContainerStyle={styles.scrollContent}
         >
             <ThemedView style={styles.container}>

@@ -7,6 +7,7 @@ import { Colors } from '@/constants/themes';
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import SettingItem from "@/components/SettingItem/SettingItem";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function SeederSettingsScreen() {
     const router = useRouter();
@@ -14,10 +15,20 @@ export default function SeederSettingsScreen() {
     const { t } = useTranslation();
     const sensorCount = useSettingsStore(s => s.sensorCount);
     const colors = Colors[actualTheme];
+    const insets = useSafeAreaInsets();
 
     return (
         <ScrollView
-            style={[styles.scroll, { backgroundColor: colors.background }]}
+            style={[
+                styles.scroll,
+                { backgroundColor: colors.background },
+                {
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+                }]
+            }
             contentContainerStyle={styles.scrollContent}
         >
             <ThemedView style={styles.container}>

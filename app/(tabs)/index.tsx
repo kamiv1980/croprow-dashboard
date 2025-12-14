@@ -8,11 +8,13 @@ import { bleMockStart } from '@/services/ble/bleService';
 import HeaderInfo from '@/components/Dashboard/HeaderInfo';
 import {simulateSensorUpdates} from "@/utils/mock-data";
 import FooterInfo from "@/components/Dashboard/FooterInfo";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function DashboardScreen() {
   // const connect = useBLEStore(s => s.connect);
   const sensors = useSensorsStore(s => s.sensors);
     const setSensors = useSensorsStore(s => s.setSensors);
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         return simulateSensorUpdates(setSensors, 3000);
@@ -26,7 +28,15 @@ export default function DashboardScreen() {
   }, []);
 
   return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[
+          styles.container,
+          {
+              paddingTop: insets.top,
+              paddingBottom: insets.bottom,
+              paddingLeft: insets.left,
+              paddingRight: insets.right,
+          },
+      ]}>
         <HeaderInfo />
         <ThemedView style={styles.content}>
           <Histogram data={sensors} />

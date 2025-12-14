@@ -7,13 +7,18 @@ import { useTheme } from '@/contexts/ThemeContext';
 import {useTranslation} from "react-i18next";
 import {useLanguage} from "@/contexts/LanguageContext";
 import SettingItem from "@/components/SettingItem/SettingItem";
+import {useUnits} from "@/contexts/UnitsContext";
+import {UNITS} from "@/constants/units";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function SettingsScreen() {
     const router = useRouter();
     const { theme } = useTheme();
     const { t, i18n } = useTranslation();
     const {labelLanguage} = useLanguage();
+    const { system } = useUnits();
     const [, forceRender] = useState(0);
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         const unsub = () => forceRender((n) => n + 1);
@@ -29,9 +34,21 @@ export default function SettingsScreen() {
             default: return t('theme.system');
         }
     };
+    const getUnits = () => {
+        const currentSystem = UNITS.find(u => u.value === system);
+        return currentSystem ? currentSystem.label : '';
+    };
 
     return (
-        <ScrollView style={styles.scroll}>
+        <ScrollView style={[
+            styles.scroll,
+            {
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+            },
+        ]}>
             <ThemedView style={styles.container}>
                 <ThemedText style={styles.header}>{t('settings.title')}</ThemedText>
 
@@ -43,7 +60,7 @@ export default function SettingsScreen() {
                     />
                     <SettingItem
                         title={t("units.title")}
-                        value="Metric"  //TODO add provider
+                        value={getUnits()}
                         onPress={() => router.push('/settings/units')}
                     />
                     <SettingItem

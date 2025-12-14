@@ -1,27 +1,66 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ThemedText} from "@/components/themed-text";
 import {IconSymbol} from "@/components/ui/icon-symbol";
 import {useTheme} from "@/contexts/ThemeContext";
 import {Colors} from "@/constants/themes";
 import {GradientLayout} from "@/components/Dashboard/GradientLayout";
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withTiming,
+    withRepeat,
+    Easing,
+} from 'react-native-reanimated';
 
-export default function FanButton(){
+export default function FanButton() {
     const { actualTheme } = useTheme();
     const colors = Colors[actualTheme];
 
-    // placeholders for fan
     const value = 2500;
-    const unit = 'rpm'
+    const unit = 'rpm';
+
+    const rotation = useSharedValue(0);
+
+    useEffect(() => {
+        if (value) {
+            rotation.value = withRepeat(
+                withTiming(360, {
+                    duration: 1200,
+                    easing: Easing.linear,
+                }),
+                -1,
+                false
+            );
+        } else {
+            rotation.value = 0;
+        }
+    }, [value]);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ rotate: `${rotation.value}deg` }],
+    }));
 
     return (
         <GradientLayout onClick={() => alert('Coming soon!')}>
             <View style={styles.container}>
                 <View style={styles.section}>
                     <ThemedText type="subtitle">{value || '!'}</ThemedText>
-                    <ThemedText type="defaultSemiBold" style={{color:colors.icon}}>{unit}</ThemedText>
+                    <ThemedText
+                        type="defaultSemiBold"
+                        style={{ color: colors.icon }}
+                    >
+                        {unit}
+                    </ThemedText>
                 </View>
-                    <IconSymbol size={52} name="fan" color={value ? colors.icon : colors.danger} />
+
+                <Animated.View style={animatedStyle}>
+                    <IconSymbol
+                        size={52}
+                        name="fan"
+                        color={value ? colors.icon : colors.danger}
+                    />
+                </Animated.View>
             </View>
         </GradientLayout>
     );

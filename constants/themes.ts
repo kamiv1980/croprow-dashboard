@@ -8,6 +8,8 @@ export const Colors = {
         tabIconSelected: '#0a7ea4',
         border: '#E5E5E5',
         card: '#F8F9FA',
+        btn_border_start: '#666666',
+        btn_border_end: '#2d2d2d',
 
         seedActive: '#5e5e5e',
         seedOffline: '#ff3b30',
@@ -29,6 +31,8 @@ export const Colors = {
         tabIconSelected: '#48CAE4',
         border: '#2C2C2E',
         card: '#1C1C1E',
+        btn_border_start: '#666666',
+        btn_border_end: '#2d2d2d',
 
         seedActive: '#5e5e5e',
         seedOffline: '#ff3b30',

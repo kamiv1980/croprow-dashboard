@@ -6,15 +6,26 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Colors } from '@/constants/themes';
 import {IconSymbol} from "@/components/ui/icon-symbol";
 import {UNITS} from "@/constants/units";
+import {useUnits} from "@/contexts/UnitsContext";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {UnitsSystem} from "@/utils/unitConverters";
 
 export default function UnitsSettingsScreen() {
     const { actualTheme } = useTheme();
     const colors = Colors[actualTheme];
-    const [selectedUnit, setSelectedUnit] = React.useState('metric');
-
+    const { system, setSystem } = useUnits();
+    const insets = useSafeAreaInsets();
 
     return (
-        <ThemedView style={styles.container}>
+        <ThemedView style={[
+            styles.container,
+        {
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+        }]
+        }>
             {UNITS.map((unit) => (
                 <Pressable
                     key={unit.value}
@@ -22,14 +33,14 @@ export default function UnitsSettingsScreen() {
                         styles.option,
                         {backgroundColor: colors.card}
                     ]}
-                    onPress={() => setSelectedUnit(unit.value)}
+                    onPress={() => setSystem(unit.value as UnitsSystem)}
                 >
                     <ThemedText style={[
                         styles.optionText,
-                        selectedUnit === unit.value &&
+                        system === unit.value &&
                             {color: colors.primary}
                     ]}>{unit.label}</ThemedText>
-                    {selectedUnit === unit.value && (
+                    {system === unit.value && (
                         <IconSymbol size={24} name="checkmark" color={colors.primary} />
                     )}
                 </Pressable>

@@ -7,14 +7,24 @@ import { Colors } from '@/constants/themes';
 import {IconSymbol} from "@/components/ui/icon-symbol";
 import {LANGUAGES} from "@/constants/languages";
 import {useLanguage} from "@/contexts/LanguageContext";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function LanguageSettingsScreen() {
     const { actualTheme } = useTheme();
     const colors = Colors[actualTheme];
     const {language, changeLanguage} = useLanguage();
+    const insets = useSafeAreaInsets();
 
     return (
-        <ThemedView style={styles.container}>
+        <ThemedView style={[
+            styles.container,
+            {
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+            }
+            ]}>
             {LANGUAGES.map((lang) => (
                 <Pressable
                     key={lang.lang}

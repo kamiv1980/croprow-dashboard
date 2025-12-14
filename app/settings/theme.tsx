@@ -6,11 +6,13 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { Colors } from '@/constants/themes';
 import {IconSymbol} from "@/components/ui/icon-symbol";
 import {useTranslation} from "react-i18next";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function ThemeSettingsScreen() {
     const { theme, setTheme, actualTheme } = useTheme();
     const colors = Colors[actualTheme];
     const { t } = useTranslation();
+    const insets = useSafeAreaInsets();
 
     const options: { value: 'light' | 'dark' | 'system'; label: string }[] = [
         { value: 'light', label: 'light' },
@@ -19,7 +21,15 @@ export default function ThemeSettingsScreen() {
     ];
 
     return (
-        <ThemedView style={styles.container}>
+        <ThemedView style={[
+            styles.container,
+            {
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+            }
+        ]}>
             {options.map((option) => (
                 <Pressable
                     key={option.value}
