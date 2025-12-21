@@ -12,10 +12,16 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.ivankam.croprowdashboard",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSLocationWhenInUseUsageDescription": "The application uses your geolocation to display the speed.",
+        "NSLocationAlwaysUsageDescription": "The application uses your geolocation to display the speed in the background."
       }
     },
     "android": {
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -42,6 +48,12 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "The application uses your geolocation to display the speed."
         }
       ],
       "expo-localization"

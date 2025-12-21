@@ -5,29 +5,33 @@ import {IconSymbol} from "@/components/ui/icon-symbol";
 import {useTheme} from "@/contexts/ThemeContext";
 import {Colors} from "@/constants/themes";
 import {GradientLayout} from "@/components/Dashboard/GradientLayout";
+import {useUnits} from "@/contexts/UnitsContext";
+import {useCurrentSpeed} from "@/hooks/useCurrentSpeed";
+import {getDirection} from "@/utils/getDirection";
 
 export default function SpeedButton(){
     const { actualTheme } = useTheme();
     const colors = Colors[actualTheme];
-
-    // placeholders for speed/heading
-    const speed = 12.3;
-    const direction = 'NW'
-    const unit = 'km/h'
+    const { distance, distanceUnit } = useUnits();
+    const { speed, heading, isLoading, hasPermission, error } = useCurrentSpeed({
+        enableHighAccuracy: true,
+        distanceInterval: 5,
+        timeInterval: 500,
+    });
 
     return (
         <GradientLayout onClick={() => alert('Coming soon!')}>
             <View style={styles.container}>
                 <View style={styles.section}>
-                    <ThemedText type="title">{speed}</ThemedText>
-                    <ThemedText type="defaultSemiBold" style={{color:colors.icon}}>{unit}</ThemedText>
+                    <ThemedText type="title">{distance(speed)}</ThemedText>
+                    <ThemedText type="defaultSemiBold" style={{color:colors.icon}}>{`${distanceUnit}/h`}</ThemedText>
                 </View>
                 <View style={styles.section}>
                     <IconSymbol size={40} name="gauge.open.with.lines.needle.33percent" color={colors.icon} />
                     <View style={styles.direction}>
                         <IconSymbol size={24} name="location.north.circle.fill" color={colors.primary} />
                         <ThemedText type="defaultSemiBold" style={{color: colors.primary}} >
-                            {direction}
+                            {getDirection(heading)}
                         </ThemedText>
                     </View>
                 </View>
