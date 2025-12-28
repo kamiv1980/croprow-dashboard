@@ -30,13 +30,13 @@ export const UnitsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             setSystem,
 
             distance: (km: number) =>
-                system === 'imperial' ? kmToMiles(km) : km,
+                system === 'imperial' ? kmToMiles(km) : km.toFixed(1),
 
             volume: (liters: number) =>
-                system === 'imperial' ? litersToGallons(liters) : liters,
+                system === 'imperial' ? litersToGallons(liters) : liters.toFixed(1),
 
             weight: (kg: number) =>
-                system === 'imperial' ? kgToLb(kg) : kg,
+                system === 'imperial' ? kgToLb(kg) : kg.toFixed(1),
 
             distanceUnit: system === 'imperial' ? 'mi' : 'km',
             volumeUnit: system === 'imperial' ? 'gal' : 'l',
