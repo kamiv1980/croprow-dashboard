@@ -56,7 +56,8 @@
           "locationAlwaysAndWhenInUsePermission": "The application uses your geolocation to display the speed."
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "react-native-ble-plx"
     ],
     "experiments": {
       "typedRoutes": true,
