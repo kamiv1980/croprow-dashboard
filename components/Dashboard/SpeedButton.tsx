@@ -13,11 +13,7 @@ export default function SpeedButton(){
     const { actualTheme } = useTheme();
     const colors = Colors[actualTheme];
     const { distance, distanceUnit } = useUnits();
-    const { speed, heading, isLoading, hasPermission, error } = useCurrentSpeed({
-        enableHighAccuracy: true,
-        distanceInterval: 5,
-        timeInterval: 500,
-    });
+    const { speed, heading, error } = useCurrentSpeed();
 
     return (
         <GradientLayout onClick={() => alert('Coming soon!')}>
