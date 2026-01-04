@@ -29,6 +29,8 @@ export const useCurrentSpeed = () => {
                 (loc) => {
                     if (!mounted) return;
 
+                    if (loc.coords.accuracy && loc.coords.accuracy > 25) return;
+
                     const prev = lastLocationRef.current;
                     lastLocationRef.current = loc;
                     setHeading(loc.coords.heading ?? null);
@@ -36,7 +38,7 @@ export const useCurrentSpeed = () => {
                     if (!prev) return;
 
                     const dt = (loc.timestamp - prev.timestamp) / 1000;
-                    if (dt <= 0) return;
+                    if (dt < 0.4) return;
 
                     const distance = haversine(
                         prev.coords.latitude,
@@ -45,7 +47,12 @@ export const useCurrentSpeed = () => {
                         loc.coords.longitude
                     );
 
+                    if (distance < 0.3) return;
+
                     let speedKmh = (distance / dt) * 3.6;
+
+                    if (speedKmh > 200) return;
+
                     if (speedKmh < 0.5) speedKmh = 0;
 
                     const smoothing = getSmoothing(speedKmh);
