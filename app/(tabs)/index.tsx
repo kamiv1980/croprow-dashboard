@@ -9,23 +9,29 @@ import HeaderInfo from '@/components/Dashboard/HeaderInfo';
 import {simulateSensorUpdates} from "@/utils/mock-data";
 import FooterInfo from "@/components/Dashboard/FooterInfo";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {startBLE} from "@/services/ble";
 
-export default function DashboardScreen() {
-  // const connect = useBLEStore(s => s.connect);
+export default function DashboardScreen( ) {
+  const connect = useBLEStore(s => s.connect);
   const sensors = useSensorsStore(s => s.sensors);
     const setSensors = useSensorsStore(s => s.setSensors);
     const insets = useSafeAreaInsets();
+
+    useEffect(() => {
+        const stop = startBLE(__DEV__ ? 'mock' : 'real');
+        return () => stop?.();
+    }, []);
 
     useEffect(() => {
         return simulateSensorUpdates(setSensors, 3000);
     }, [setSensors]);
 
 
-    useEffect(() => {
-    // start mock BLE stream for demo
-    const stop = bleMockStart();
-    return () => stop();
-  }, []);
+  //   useEffect(() => {
+  //   // start mock BLE stream for demo
+  //   const stop = bleMockStart();
+  //   return () => stop();
+  // }, []);
 
   return (
       <SafeAreaView style={[
